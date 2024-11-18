@@ -18,10 +18,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.muflidevs.storyapp.ui.customView.CustomUsernameEditText
+        android:id="@+id/ed_register_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/user_login_icon"
         android:hint="@string/username"
+        android:alpha="0"
         android:drawablePadding="8dp"
         android:textColorHint="@color/secondary"
         android:layout_marginStart="32dp"
@@ -32,12 +34,14 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <com.muflidevs.storyapp.ui.customView.CustomEmailEditText
+        android:id="@+id/ed_register_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/mail_icon"
         android:drawablePadding="8dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:alpha="0"
         android:hint="@string/email"
         android:textColorHint="@color/secondary"
         app:layout_constraintBottom_toBottomOf="@+id/footerWave"
@@ -46,12 +50,14 @@
         tools:layout_editor_absoluteX="32dp" />
 
     <com.muflidevs.storyapp.ui.customView.CustomPasswordEditText
+        android:id="@+id/ed_register_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/user_login_password_icon"
         android:drawablePadding="8dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:alpha="0"
         android:textColorHint="@color/secondary"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -73,9 +79,10 @@
         app:layout_constraintVertical_bias="0.181" />
 
     <com.muflidevs.storyapp.ui.customView.CustomButton
-        android:id="@+id/register"
+        android:id="@+id/submit_btn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:alpha="0"
         android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +95,7 @@
         android:layout_marginEnd="27dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register"
+        app:layout_constraintTop_toBottomOf="@+id/submit_btn"
         app:layout_constraintVertical_bias="0.082">
 
         <TextView
@@ -99,10 +106,11 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/login"
+            android:id="@+id/login_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:alpha="0"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/login"
             android:textColor="@color/primary"

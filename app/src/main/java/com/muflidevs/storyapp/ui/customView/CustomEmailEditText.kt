@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -12,6 +11,7 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.muflidevs.storyapp.R
+import com.muflidevs.storyapp.helper.HelperCustomView
 
 class CustomEmailEditText @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -30,18 +30,15 @@ class CustomEmailEditText @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 if(s.toString().isEmpty()) showUserIcon()
-                if(!isValidEmail(s.toString())) error = "Email Tidak Valid"
                 else if(s.toString().isNotEmpty()) showClearButton()
                 else hideClearButton()
-            }
+                if(!HelperCustomView.isValidEmail(s.toString())) error = "Email Tidak Valid"
+
+            }  
             override fun afterTextChanged(s: Editable?) {
             }
 
         })
-    }
-    private fun isValidEmail(target: CharSequence?): Boolean {
-        if(TextUtils.isEmpty(target)) return false
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(target!!).matches()
     }
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         if(compoundDrawables[2] != null) {
@@ -91,6 +88,10 @@ class CustomEmailEditText @JvmOverloads constructor(
         textSize = 20f
     }
 
+    override fun setAlpha(alpha: Float) {
+        super.setAlpha(alpha)
+        invalidate()
+    }
     private fun showClearButton() {
         setButtonDrawables(endOfTheText = clearButtonImage)
     }

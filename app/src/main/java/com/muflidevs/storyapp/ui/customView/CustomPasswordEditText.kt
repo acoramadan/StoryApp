@@ -29,9 +29,10 @@ class CustomPasswordEditText @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 if(s.toString().isEmpty()) showUserIcon()
-                if(s.toString().length < 8) setError("Panjang password kurang dari 8")
                 else if(s.toString().isNotEmpty()) showClearButton()
                 else hideClearButton()
+                if(s.toString().length < 8) setError("Panjang password kurang dari 8")
+
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -86,7 +87,10 @@ class CustomPasswordEditText @JvmOverloads constructor(
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
         textSize = 20f
     }
-
+    override fun setAlpha(alpha: Float) {
+        super.setAlpha(alpha)
+        invalidate()
+    }
     private fun showClearButton() {
         setButtonDrawables(endOfTheText = clearButtonImage)
     }

@@ -84,6 +84,10 @@ class CustomUsernameEditText @JvmOverloads constructor(
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
         textSize = 20f
     }
+    override fun setAlpha(alpha: Float) {
+        super.setAlpha(alpha)
+        invalidate()
+    }
 
     private fun showClearButton() {
         setButtonDrawables(endOfTheText = clearButtonImage)

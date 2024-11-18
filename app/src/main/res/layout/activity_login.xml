@@ -17,14 +17,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.muflidevs.storyapp.ui.customView.CustomEmailEditText
-        android:id="@+id/email"
+        android:id="@+id/ed_login_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="35dp"
         android:layout_marginStart="35dp"
         android:hint="@string/email"
+        android:alpha="0"
         android:textColorHint="@color/secondary"
         android:drawableStart="@drawable/mail_icon"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         android:drawablePadding="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/footerWave"
         app:layout_constraintTop_toTopOf="@+id/headerWave"
@@ -32,15 +35,18 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <com.muflidevs.storyapp.ui.customView.CustomPasswordEditText
-        android:id="@+id/password"
+        android:id="@+id/ed_login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="35dp"
         android:layout_marginEnd="35dp"
+        android:alpha="0"
         android:drawableStart="@drawable/user_login_password_icon"
         android:drawablePadding="8dp"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         android:textColorHint="@color/secondary"
         android:inputType="textPassword"
         app:layout_constraintVertical_bias="0.458"
@@ -65,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="34dp"
         android:text="@string/register"
+        android:alpha="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -92,6 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:fontFamily="@font/poppins_bold"
+            android:alpha="0"
             android:text="@string/register"
             android:textColor="@color/primary"
             android:textSize="18sp" />

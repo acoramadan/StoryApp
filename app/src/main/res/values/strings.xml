@@ -9,4 +9,12 @@
     <string name="register">Register</string>
     <string name="sudah_punya_akun">Sudah Punya Akun ?</string>
     <string name="username">Username</string>
+    <string name="fab_add">fab_add</string>
+    <string name="add_story">Add Story</string>
+    <string name="image">image</string>
+    <string name="camera">Camera</string>
+    <string name="galeri">Galery</string>
+    <string name="masukkan_deskripsi">Masukkan deskripsi</string>
+    <string name="submit">Submit</string>
+    <string name="back">back</string>
 </resources>
