@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">StoryApp</string>
+    <string name="wave_header">wave_header</string>
+    <string name="wave_footer">wave_footer</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="login_btn">LOGIN</string>
+    <string name="belum_punya_akun">Belum Punya Akun ?</string>
+    <string name="register">Register</string>
+    <string name="sudah_punya_akun">Sudah Punya Akun ?</string>
+    <string name="username">Username</string>
+</resources>
