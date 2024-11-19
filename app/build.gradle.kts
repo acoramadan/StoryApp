@@ -47,7 +47,13 @@ dependencies {
 
     //glide
     implementation(libs.glide)
-    
+
+    //viewModel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // coroutine
+    implementation(libs.kotlinx.coroutines.android)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -15,6 +15,13 @@ data class StoryResponse(
     @field:SerializedName("listStory")
     var listStory: List<Story>? = null
 )
+data class PostStoryResponse(
+    @field:SerializedName("error")
+    val error: String? = null,
+
+    @field:SerializedName("message")
+    val message: String? = null
+)
 
 @Parcelize
 data class Story (
