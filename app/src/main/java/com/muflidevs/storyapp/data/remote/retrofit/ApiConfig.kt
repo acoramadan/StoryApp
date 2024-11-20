@@ -1,5 +1,6 @@
 package com.muflidevs.storyapp.data.remote.retrofit
 
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,6 +16,7 @@ class ApiConfig {
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor{ chain ->
                     val requestBuilder = chain.request().newBuilder()
+                    Log.d("ApiConfig", "Authorization: Bearer $token")
                     requestBuilder.addHeader("Authorization","Bearer $token")
                     chain.proceed(requestBuilder.build())
                 }

@@ -1,13 +1,11 @@
 package com.muflidevs.storyapp.data.remote.response
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
 
 data class LoginResponse(
     @field:SerializedName("error")
-    val error: String? = null,
+    val error: Boolean? = null,
 
     @field:SerializedName("message")
     val message: String? = null,
@@ -16,7 +14,7 @@ data class LoginResponse(
     val loginResult: User? = null
 )
 
-@Parcelize
+
 data class User(
     @field:SerializedName("userId")
     val userId: String? = null,
@@ -26,7 +24,7 @@ data class User(
 
     @field:SerializedName("token")
     val token: String? = null
-): Parcelable
+)
 
 data class RegisterRequest(
     @field:SerializedName("name")
@@ -49,7 +47,7 @@ data class LoginRequest(
 
 data class RegisterResponse(
     @field:SerializedName("error")
-    val error: String? = null,
+    val error: Boolean? = null,
 
     @field:SerializedName("message")
     val message: String? = null

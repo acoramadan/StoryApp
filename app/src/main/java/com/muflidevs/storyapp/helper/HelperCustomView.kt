@@ -1,8 +1,10 @@
 package com.muflidevs.storyapp.helper
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.widget.Toast
 import com.muflidevs.storyapp.ui.customView.CustomButton
 import com.muflidevs.storyapp.ui.customView.CustomEmailEditText
 import com.muflidevs.storyapp.ui.customView.CustomPasswordEditText
@@ -14,6 +16,10 @@ object HelperCustomView {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target!!).matches()
     }
 
+    fun showToast(context: Context,message: String?) {
+        val display = message ?: "Ada masalah pepek"
+        Toast.makeText(context,display,Toast.LENGTH_SHORT).show()
+    }
     fun setMyButtonEnabled(userNameEdtTxt: CustomUsernameEditText,
                            emailEdtTxt: CustomEmailEditText,
                            passwordEdtTxt: CustomPasswordEditText,
