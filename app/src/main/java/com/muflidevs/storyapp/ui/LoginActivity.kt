@@ -2,6 +2,7 @@ package com.muflidevs.storyapp.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -45,10 +46,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         submitBtn.setOnClickListener {
             viewModel.login(emailEdtTxt.text.toString(),passwordEdtTxt.text.toString())
+            Log.d("LoginActivity","{${emailEdtTxt.text.toString()}} ${passwordEdtTxt.text.toString()}")
             viewModel.isLoading.observe(this) {
                 showLoading(it)
             }
             viewModel.loginResult.observe(this) { loginResponse ->
+                Log.d("LoginActivity","$loginResponse")
                 if(loginResponse != null && !loginResponse.error!!) {
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)
                     showToast(this@LoginActivity,"Selamat Datang ${loginResponse.loginResult!!.name}")

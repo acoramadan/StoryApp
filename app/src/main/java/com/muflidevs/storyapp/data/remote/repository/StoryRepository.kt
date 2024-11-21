@@ -21,4 +21,5 @@ class StoryRepository(private val api: ApiService) {
             throw Exception("ID tidak ditemukan ${response.code() } ${response.message()}")
         }
     }
+//    suspend fun postNewStories()
 }

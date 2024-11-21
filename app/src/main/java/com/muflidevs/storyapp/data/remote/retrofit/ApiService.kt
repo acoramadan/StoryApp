@@ -22,13 +22,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-    @FormUrlEncoded
+
     @POST("register")
     suspend fun postRegister(
         @Body register: RegisterRequest
     ): Response<RegisterResponse>
 
-    @FormUrlEncoded
     @POST("login")
     suspend fun postLogin(
         @Body login: LoginRequest

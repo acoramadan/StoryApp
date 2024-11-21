@@ -1,5 +1,6 @@
 package com.muflidevs.storyapp.viewModel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +24,8 @@ class StoryViewModel(private val repository: StoryRepository): ViewModel() {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
+    private val _imageUri = MutableLiveData<Uri>()
+    val imageUri: LiveData<Uri> get() = _imageUri
     fun fetchStory() {
         viewModelScope.launch {
             _isLoading.value = true
@@ -47,5 +50,8 @@ class StoryViewModel(private val repository: StoryRepository): ViewModel() {
                 _error.postValue(e.message)
             }
         }
+    }
+    fun setImageUri(uri: Uri?) {
+        _imageUri.value = uri!!
     }
 }

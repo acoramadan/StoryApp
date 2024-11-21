@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">StoryApp</string>
+    <string name="wave_header" translatable="false">wave_header</string>
+    <string name="wave_footer" translatable="false">wave_footer</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="login" translatable="false">Login</string>
+    <string name="login_btn" translatable="false">LOGIN</string>
+    <string name="belum_punya_akun" translatable="false">Belum Punya Akun ?</string>
+    <string name="register" translatable="false">Daftar</string>
+    <string name="sudah_punya_akun" translatable="false">Sudah Punya Akun ?</string>
+    <string name="username" translatable="false">Username</string>
+    <string name="fab_add" translatable="false">fab_add</string>
+    <string name="add_story" translatable="false">Add Story</string>
+    <string name="image" translatable="false">gambar</string>
+    <string name="camera" translatable="false">Kamera</string>
+    <string name="galeri" translatable="false">Galeri</string>
+    <string name="masukkan_deskripsi" translatable="false">Masukkan deskripsi</string>
+    <string name="submit" translatable="false">Masukkan</string>
+    <string name="back" translatable="false">Kembali</string>
+    <string name="splashscreen" translatable="false">splashScreen</string>
+    <string name="logout" translatable="false">Keluar</string>
+</resources>
