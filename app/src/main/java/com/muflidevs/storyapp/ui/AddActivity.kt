@@ -6,21 +6,27 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import com.muflidevs.storyapp.R
+import com.muflidevs.storyapp.data.remote.repository.AuthRepository
 import com.muflidevs.storyapp.data.remote.repository.StoryRepository
 import com.muflidevs.storyapp.data.remote.retrofit.ApiConfig
 import com.muflidevs.storyapp.databinding.ActivityAddBinding
+import com.muflidevs.storyapp.helper.HelperCustomView.showToast
 import com.muflidevs.storyapp.helper.HelperPostStory.createCustomTempFile
 import com.muflidevs.storyapp.helper.HelperPostStory.getImageUri
 import com.muflidevs.storyapp.viewModel.StoryViewModel
+import com.muflidevs.storyapp.viewModel.StoryViewModelFactory
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -29,9 +35,13 @@ class AddActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddBinding
     private lateinit var cameraBtn: Button
     private lateinit var galeriBtn: Button
+    private lateinit var backButton: Button
     private lateinit var descriptionEdtTxt: EditText
     private lateinit var submitBtn: Button
     private lateinit var viewModel: StoryViewModel
+    private lateinit var progressBar: ProgressBar
+    private lateinit var factory: StoryViewModelFactory
+    private lateinit var authRepository: AuthRepository
     private var curretImage: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,15 +50,32 @@ class AddActivity : AppCompatActivity() {
         binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
         descriptionEdtTxt = binding.descriptionInput
+        backButton = binding.back
         galeriBtn = binding.galeri
         submitBtn = binding.submitButton
         cameraBtn = binding.camera
-        viewModel = StoryViewModel(StoryRepository(ApiConfig.getApiService()))
+        progressBar = binding.progressBar2
+        authRepository = AuthRepository(ApiConfig.getApiService(),this)
+        factory = StoryViewModelFactory(StoryRepository(ApiConfig.getApiService(authRepository.getToken())))
+        viewModel = ViewModelProvider(this,factory)[StoryViewModel::class.java]
+        backButton.setOnClickListener{
+            finish()
+        }
         galeriBtn.setOnClickListener{
             startGallery()
         }
         cameraBtn.setOnClickListener{
             startCamera()
+        }
+        submitBtn.setOnClickListener{
+            val description = binding.descriptionInput.text.toString()
+            if(curretImage != null) {
+                val file = uriToFile(curretImage!!,this)
+                Log.e("DATA YANG AKAN DI KIRIM : ","${file.name} || $description")
+                viewModel.uploadStory(description,file)
+            } else {
+                showToast(this,"Masukkan Gambar Terlebih dahulu")
+            }
         }
         viewModel.imageUri.observe(this) { uri ->
             uri.let {
@@ -56,6 +83,15 @@ class AddActivity : AppCompatActivity() {
                 showImage()
             }
         }
+
+        viewModel.uploadStory.observe(this) { response ->
+            showToast(this,response.message)
+        }
+        viewModel.isLoading.observe(this) {
+            showLoading(it)
+            if(it == false) finish()
+        }
+
     }
 
     private fun startGallery() {
@@ -125,4 +161,7 @@ class AddActivity : AppCompatActivity() {
 
     }
 
+    private fun showLoading(loading: Boolean) {
+        progressBar.visibility = if(loading) View.VISIBLE else View.GONE
+    }
 }

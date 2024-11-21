@@ -2,6 +2,8 @@ package com.muflidevs.storyapp.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -29,6 +31,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var authRepository: AuthRepository
     private lateinit var storiesAdapter: StoryListAdapater
     private lateinit var loadingProgressBar: ProgressBar
+    private lateinit var handler: Handler
+    private lateinit var pollingRunnable: Runnable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +84,36 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.fetchStory()
     }
+
+    override fun onResume() {
+        super.onResume()
+        resumeFetchStory()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopFetchStory()
+    }
+
     private fun showLoading(loading: Boolean) {
         loadingProgressBar.visibility = if(loading) View.VISIBLE else View.GONE
     }
+
+    private fun resumeFetchStory() {
+        handler = Handler(Looper.getMainLooper())
+        pollingRunnable = object: Runnable {
+            override fun run() {
+                viewModel.fetchStory()
+                handler.postDelayed(this,2000)
+            }
+        }
+        handler.post(pollingRunnable)
+    }
+
+    private fun stopFetchStory() {
+        if(::handler.isInitialized && ::pollingRunnable.isInitialized) {
+            handler.removeCallbacks(pollingRunnable)
+        }
+    }
+
 }

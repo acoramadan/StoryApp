@@ -7,8 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.muflidevs.storyapp.data.remote.repository.StoryRepository
+import com.muflidevs.storyapp.data.remote.response.PostStoryResponse
 import com.muflidevs.storyapp.data.remote.response.Story
 import kotlinx.coroutines.launch
+import java.io.File
 
 class StoryViewModel(private val repository: StoryRepository): ViewModel() {
 
@@ -26,6 +28,29 @@ class StoryViewModel(private val repository: StoryRepository): ViewModel() {
 
     private val _imageUri = MutableLiveData<Uri>()
     val imageUri: LiveData<Uri> get() = _imageUri
+
+    private val _uploadStory = MutableLiveData<PostStoryResponse>()
+    val uploadStory: LiveData<PostStoryResponse> get() = _uploadStory
+
+    fun uploadStory(description: String, filePhoto: File) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val response = repository.postNewStories(description, filePhoto)
+                if(response.isSuccessful && response.body() != null) {
+                    _uploadStory.postValue(response.body())
+                    Log.d("Upload", "Success: ${response.body()?.message}")
+                } else {
+                    _error.postValue(response.errorBody()?.string())
+                    Log.e("Upload", "Error: ${response.code()} - ${response.errorBody()?.string()}")
+                }
+            }catch (e: Exception) {
+                _error.postValue(e.message)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
     fun fetchStory() {
         viewModelScope.launch {
             _isLoading.value = true
