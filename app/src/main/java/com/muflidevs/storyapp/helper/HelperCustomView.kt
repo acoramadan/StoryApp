@@ -17,7 +17,7 @@ object HelperCustomView {
     }
 
     fun showToast(context: Context, message: String?) {
-        val display = message ?: "Ada masalah pepek"
+        val display = message ?: ""
         Toast.makeText(context, display, Toast.LENGTH_SHORT).show()
     }
 

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.StoryApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -7,7 +7,7 @@
 
     <style name="Theme.StoryApp" parent="Base.Theme.StoryApp" />
 
-    <style name="Theme.StoryApp.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+    <style name="Theme.StoryApp.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault" tools:ignore="UnusedResources">
         <!-- Radius of the outer bound of widgets to make the rounded corners -->
         <item name="appWidgetRadius">16dp</item>
         <!--
@@ -17,7 +17,7 @@
         <item name="appWidgetInnerRadius">8dp</item>
     </style>
 
-    <style name="Theme.StoryApp.AppWidgetContainer" parent="Theme.StoryApp.AppWidgetContainerParent">
+    <style name="Theme.StoryApp.AppWidgetContainer" parent="Theme.StoryApp.AppWidgetContainerParent" tools:ignore="UnusedResources">
         <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
         <item name="appWidgetPadding">16dp</item>
     </style>

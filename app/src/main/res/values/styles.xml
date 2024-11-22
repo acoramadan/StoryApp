@@ -1,12 +1,7 @@
-<resources>
+<!--suppress CheckTagEmptyBody, CheckTagEmptyBody -->
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Widget.StoryApp.AppWidget.Container" parent="android:Widget">
-        <item name="android:id">@android:id/background</item>
-        <item name="android:background">?android:attr/colorBackground</item>
-    </style>
+    <style name="Widget.StoryApp.AppWidget.Container" parent="android:Widget" tools:ignore="UnusedResources"></style>
 
-    <style name="Widget.StoryApp.AppWidget.InnerView" parent="android:Widget">
-        <item name="android:background">?android:attr/colorBackground</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
+    <style name="Widget.StoryApp.AppWidget.InnerView" parent="android:Widget" tools:ignore="UnusedResources"></style>
 </resources>

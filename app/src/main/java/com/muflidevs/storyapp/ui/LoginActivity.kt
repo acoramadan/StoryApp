@@ -53,19 +53,20 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 showLoading(it)
             }
             viewModel.loginResult.observe(this) { loginResponse ->
-                Log.d("LoginActivity", "$loginResponse")
+                Log.d("LoginActivity", "${loginResponse.error ?: "null"}")
                 if (loginResponse != null && !loginResponse.error!!) {
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     showToast(
                         this@LoginActivity,
-                        "Selamat Datang ${loginResponse.loginResult!!.name}"
+                        "Selamat Datang ${loginResponse.loginResult!!.name ?: "null"}"
                     )
                     startActivity(intent)
                     finish()
                 }
-                if (loginResponse.error!!) {
-                    showToast(this@LoginActivity, "Password/Username tidak valid")
-                }
+                Log.d("LoginActivity", "Error status: ${loginResponse.error}")
+            }
+            viewModel.error.observe(this) { isError ->
+                showToast(this, isError)
             }
         }
         HelperCustomView.setMyButtonEnabled(emailEdtTxt, passwordEdtTxt, submitBtn)

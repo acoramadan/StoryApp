@@ -36,7 +36,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //api
         viewModel = AuthViewModel(AuthRepository(ApiConfig.getApiService(), this))
         loadingBar = binding.progressBar
         loginTv = binding.loginTv
@@ -45,7 +44,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         passwordEdtTxt = binding.edRegisterPassword
         submitBtn = binding.submitBtnRegister
 
-        //navigation
         loginTv.setOnClickListener(this)
 
         submitBtn.setOnClickListener {
@@ -62,9 +60,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                     val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
-                } else {
-                    showToast(this@RegisterActivity, registerResult.message)
                 }
+            }
+            viewModel.error.observe(this) { isError ->
+                showToast(this, isError)
             }
         }
 

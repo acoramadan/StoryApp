@@ -1,5 +1,6 @@
 package com.muflidevs.storyapp.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,8 +28,11 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 val result = repository.login(email, password)
-                _loginResult.postValue(result)
+                if (!result.error!!) {
+                    _loginResult.postValue(result)
+                }
             } catch (e: Exception) {
+                Log.e("LoginViewModel", "Login error: ${e.message}")
                 _error.postValue(e.message)
             } finally {
                 _isLoading.value = false

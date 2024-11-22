@@ -7,6 +7,7 @@ import com.muflidevs.storyapp.data.remote.response.LoginResponse
 import com.muflidevs.storyapp.data.remote.response.RegisterRequest
 import com.muflidevs.storyapp.data.remote.response.RegisterResponse
 import com.muflidevs.storyapp.data.remote.retrofit.ApiService
+import org.json.JSONObject
 
 
 class AuthRepository(private val api: ApiService, private val context: Context? = null) {
@@ -15,20 +16,45 @@ class AuthRepository(private val api: ApiService, private val context: Context? 
         val response = api.postLogin(LoginRequest(email, password))
         if (response.isSuccessful) {
             val loginResponse = response.body()
-            saveToken(loginResponse!!.loginResult!!.token)
+            val token = loginResponse?.loginResult?.token
+                ?: throw Exception("Tidak ada token yang didapat!")
+            saveToken(token)
             return loginResponse
         } else {
-            throw Exception(response.message())
+            val errorBody = response.errorBody()?.string()
+            val errorMessage = if (!errorBody.isNullOrEmpty()) {
+                try {
+                    JSONObject(errorBody).optString("message", "error tidak diketahui")
+                } catch (e: Exception) {
+                    "error tidak diketahui"
+                }
+            } else {
+                "error"
+            }
+            throw Exception(errorMessage)
         }
     }
 
+
     suspend fun register(username: String, email: String, password: String): RegisterResponse {
         val response = api.postRegister(RegisterRequest(username, email, password))
-        if (response.isSuccessful && response.body() != null) {
+        if (response.isSuccessful) {
             val registerResponse = response.body()
-            return registerResponse!!
+                ?: throw Exception("Error not found")
+
+            return registerResponse
         } else {
-            throw Exception(response.body()!!.message)
+            val errorBody = response.errorBody()?.string()
+            val errorMessage = if (!errorBody.isNullOrEmpty()) {
+                try {
+                    JSONObject(errorBody).optString("message", "error tidak diketahui")
+                } catch (e: Exception) {
+                    "error tidak diketahui"
+                }
+            } else {
+                "error"
+            }
+            throw Exception(errorMessage)
         }
     }
 

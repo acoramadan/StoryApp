@@ -4,7 +4,6 @@
     <string name="wave_footer">wave_footer</string>
     <string name="email">Email</string>
     <string name="login">Login</string>
-    <string name="login_btn">LOGIN</string>
     <string name="belum_punya_akun">Doesn\'t Have An account ?</string>
     <string name="register">Register</string>
     <string name="sudah_punya_akun">Already Have An account ?</string>
@@ -20,7 +19,6 @@
     <string name="splashscreen">splashScreen</string>
     <string name="logout">Logout</string>
     <string name="appwidget_text">Story App</string>
-    <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
     <string name="empty_text">empty Text</string>
     <string name="btn_validation"> please fill out the form above</string>
