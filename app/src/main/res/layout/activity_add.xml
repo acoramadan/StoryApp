@@ -76,7 +76,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/description_input"
+        android:id="@+id/ed_add_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints=""
@@ -96,7 +96,7 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <Button
-        android:id="@+id/submit_button"
+        android:id="@+id/button_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/primary"
@@ -107,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description_input"
+        app:layout_constraintTop_toBottomOf="@+id/ed_add_description"
         app:layout_constraintVertical_bias="0.383" />
 
     <ProgressBar

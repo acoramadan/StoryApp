@@ -11,17 +11,18 @@ import com.bumptech.glide.Glide
 import com.muflidevs.storyapp.data.remote.response.Story
 import com.muflidevs.storyapp.databinding.ItemListBinding
 
-class StoryListAdapater(private val context: Context, private val onItemClicked: (Story) -> Unit):
-    ListAdapter<Story,StoryListAdapater.StoryViewHolder>(DIFF_CALLBACK) {
+class StoryListAdapater(private val context: Context, private val onItemClicked: (Story) -> Unit) :
+    ListAdapter<Story, StoryListAdapater.StoryViewHolder>(DIFF_CALLBACK) {
 
-    inner class StoryViewHolder(private var binding: ItemListBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class StoryViewHolder(private var binding: ItemListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(stories: Story, onItemClicked: (Story) -> Unit) {
             Log.d("StoryAdapter", "Binding story: ${stories.name}")
-            binding.name.text = stories.name
-            binding.deskripsi.text = stories.description
+            binding.tvItemName.text = stories.name
+            binding.tvItemDeskripsi.text = stories.description
             Glide.with(context)
                 .load(stories.photoUrl)
-                .into(binding.image)
+                .into(binding.ivItemPhoto)
             binding.root.setOnClickListener {
                 onItemClicked(stories)
             }
@@ -29,13 +30,13 @@ class StoryListAdapater(private val context: Context, private val onItemClicked:
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
-        val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StoryViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
         val detailStory = getItem(position)
-        holder.bind(detailStory,onItemClicked)
+        holder.bind(detailStory, onItemClicked)
     }
 
     companion object {

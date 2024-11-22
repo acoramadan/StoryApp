@@ -24,19 +24,19 @@ class SplashScreenActivity : AppCompatActivity() {
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
         apiService = ApiConfig.getApiService()
-        authRepo = AuthRepository(apiService,this)
+        authRepo = AuthRepository(apiService, this)
         val token = authRepo.getToken()
-        Log.e("SplashScreen","$token")
+        Log.e("SplashScreen", "$token")
         Handler(Looper.getMainLooper()).postDelayed({
-            if(token != null) {
-                val intent = Intent(this@SplashScreenActivity,MainActivity::class.java)
+            if (token != null) {
+                val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
-                val intent = Intent(this@SplashScreenActivity,LoginActivity::class.java)
+                val intent = Intent(this@SplashScreenActivity, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             }
-        },5000)
+        }, 5000)
     }
 }

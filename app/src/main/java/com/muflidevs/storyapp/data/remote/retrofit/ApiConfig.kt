@@ -11,13 +11,14 @@ class ApiConfig {
         private const val BASE_URL = "https://story-api.dicoding.dev/v1/"
 
         fun getApiService(token: String? = null): ApiService {
-            val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            val loggingInterceptor =
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
-                .addInterceptor{ chain ->
+                .addInterceptor { chain ->
                     val requestBuilder = chain.request().newBuilder()
                     Log.d("ApiConfig", "Authorization: Bearer $token")
-                    requestBuilder.addHeader("Authorization","Bearer $token")
+                    requestBuilder.addHeader("Authorization", "Bearer $token")
                     chain.proceed(requestBuilder.build())
                 }
                 .build()

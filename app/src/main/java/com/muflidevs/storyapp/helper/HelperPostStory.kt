@@ -42,18 +42,4 @@ object HelperPostStory {
             imageFile
         )
     }
-
-    fun createCustomTempFile(context: Context): File {
-        val filesDir = context.externalCacheDir
-        return File.createTempFile(timeStamp, ".jpg", filesDir)
-    }
-    fun refreshMediaStore(context: Context, uri: Uri) {
-        MediaStore.Images.Media.query(
-            context.contentResolver,
-            uri,
-            null,
-            null,
-            null
-        )?.close()
-    }
 }

@@ -4,7 +4,7 @@
     <string name="wave_header" translatable="false">wave_header</string>
     <string name="wave_footer" translatable="false">wave_footer</string>
     <string name="email" translatable="false">Email</string>
-    <string name="login" translatable="false">Login</string>
+    <string name="login" translatable="false">Masuk</string>
     <string name="login_btn" translatable="false">LOGIN</string>
     <string name="belum_punya_akun" translatable="false">Belum Punya Akun ?</string>
     <string name="register" translatable="false">Daftar</string>
@@ -20,4 +20,10 @@
     <string name="back" translatable="false">Kembali</string>
     <string name="splashscreen" translatable="false">splashScreen</string>
     <string name="logout" translatable="false">Keluar</string>
+    <string name="appwidget_text">Story App</string>
+    <string name="add_widget">Tambahkan widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="empty_text">empty Text</string>
+    <string name="btn_validation"> silakan isi formulir di atas</string>
+    <string name="widget_image">widget image</string>
 </resources>

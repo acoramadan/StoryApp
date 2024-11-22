@@ -13,6 +13,7 @@ data class StoryResponse(
     @field:SerializedName("listStory")
     var listStory: List<Story>? = null
 )
+
 data class PostStoryResponse(
     @field:SerializedName("error")
     val error: Boolean? = null,
@@ -21,7 +22,7 @@ data class PostStoryResponse(
     val message: String? = null
 )
 
-data class Story (
+data class Story(
     @field:SerializedName("id")
     var id: String? = null,
 
@@ -38,12 +39,12 @@ data class Story (
     var createdAt: String? = null,
 
     @field:SerializedName("lat")
-    var lat:Float? = null,
+    var lat: Float? = null,
 
     @field:SerializedName("lon")
     var lon: Float? = null,
 
-)
+    )
 
 data class DetailStoryResponse(
     @field:SerializedName("error")

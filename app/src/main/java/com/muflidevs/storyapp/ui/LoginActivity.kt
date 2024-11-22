@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.muflidevs.storyapp.R
@@ -35,7 +34,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = AuthViewModel(AuthRepository(ApiConfig.getApiService(),this))
+        viewModel = AuthViewModel(AuthRepository(ApiConfig.getApiService(), this))
         registerTv = binding.register
         emailEdtTxt = binding.edLoginEmail
         passwordEdtTxt = binding.edLoginPassword
@@ -45,30 +44,38 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         registerTv.setOnClickListener(this)
 
         submitBtn.setOnClickListener {
-            viewModel.login(emailEdtTxt.text.toString(),passwordEdtTxt.text.toString())
-            Log.d("LoginActivity","{${emailEdtTxt.text.toString()}} ${passwordEdtTxt.text.toString()}")
+            viewModel.login(emailEdtTxt.text.toString(), passwordEdtTxt.text.toString())
+            Log.d(
+                "LoginActivity",
+                "{${emailEdtTxt.text.toString()}} ${passwordEdtTxt.text.toString()}"
+            )
             viewModel.isLoading.observe(this) {
                 showLoading(it)
             }
             viewModel.loginResult.observe(this) { loginResponse ->
-                Log.d("LoginActivity","$loginResponse")
-                if(loginResponse != null && !loginResponse.error!!) {
-                    val intent = Intent(this@LoginActivity,MainActivity::class.java)
-                    showToast(this@LoginActivity,"Selamat Datang ${loginResponse.loginResult!!.name}")
+                Log.d("LoginActivity", "$loginResponse")
+                if (loginResponse != null && !loginResponse.error!!) {
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    showToast(
+                        this@LoginActivity,
+                        "Selamat Datang ${loginResponse.loginResult!!.name}"
+                    )
                     startActivity(intent)
                     finish()
-                } else {
-                    showToast(this@LoginActivity,"Password/Username tidak valid")
+                }
+                if (loginResponse.error!!) {
+                    showToast(this@LoginActivity, "Password/Username tidak valid")
                 }
             }
         }
-        HelperCustomView.setMyButtonEnabled(emailEdtTxt,passwordEdtTxt,submitBtn)
-        HelperCustomView.checkUserInput(emailEdtTxt,passwordEdtTxt,submitBtn)
-        HelperAnimation.playAnimation(emailEdtTxt,passwordEdtTxt,submitBtn,registerTv)
+        HelperCustomView.setMyButtonEnabled(emailEdtTxt, passwordEdtTxt, submitBtn)
+        HelperCustomView.checkUserInput(emailEdtTxt, passwordEdtTxt, submitBtn)
+        HelperAnimation.playAnimation(emailEdtTxt, passwordEdtTxt, submitBtn, registerTv)
 
     }
+
     override fun onClick(view: View?) {
-        when(view?.id) {
+        when (view?.id) {
             R.id.register -> {
                 val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
                 startActivity(intent)
@@ -76,7 +83,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
     private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }

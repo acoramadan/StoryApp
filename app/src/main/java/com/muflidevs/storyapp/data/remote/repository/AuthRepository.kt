@@ -9,11 +9,11 @@ import com.muflidevs.storyapp.data.remote.response.RegisterResponse
 import com.muflidevs.storyapp.data.remote.retrofit.ApiService
 
 
-class AuthRepository(private val api: ApiService, private val context: Context) {
+class AuthRepository(private val api: ApiService, private val context: Context? = null) {
 
     suspend fun login(email: String, password: String): LoginResponse {
-        val response = api.postLogin(LoginRequest(email,password))
-        if(response.isSuccessful) {
+        val response = api.postLogin(LoginRequest(email, password))
+        if (response.isSuccessful) {
             val loginResponse = response.body()
             saveToken(loginResponse!!.loginResult!!.token)
             return loginResponse
@@ -23,8 +23,8 @@ class AuthRepository(private val api: ApiService, private val context: Context) 
     }
 
     suspend fun register(username: String, email: String, password: String): RegisterResponse {
-        val response = api.postRegister(RegisterRequest(username,email,password))
-        if(response.isSuccessful && response.body() != null) {
+        val response = api.postRegister(RegisterRequest(username, email, password))
+        if (response.isSuccessful && response.body() != null) {
             val registerResponse = response.body()
             return registerResponse!!
         } else {
@@ -33,18 +33,19 @@ class AuthRepository(private val api: ApiService, private val context: Context) 
     }
 
     private fun saveToken(token: String?) {
-        val sharedPref = context.getSharedPreferences("AppPrefs",Context.MODE_PRIVATE)
-        sharedPref.edit().putString("TOKEN_KEY",token).apply()
-        Log.e("AuthRepo","$token")
+        val sharedPref = context!!.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        sharedPref.edit().putString("TOKEN_KEY", token).apply()
+        Log.e("AuthRepo", "$token")
     }
+
     fun clearToken() {
-        val sharedPref = context.getSharedPreferences("AppPrefs",Context.MODE_PRIVATE)
+        val sharedPref = context!!.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         sharedPref.edit().remove("TOKEN_KEY").apply()
     }
 
     fun getToken(): String? {
-        val sharedPref = context.getSharedPreferences("AppPrefs",Context.MODE_PRIVATE)
-        return sharedPref.getString("TOKEN_KEY",null)
+        val sharedPref = context!!.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        return sharedPref.getString("TOKEN_KEY", null)
     }
 
 }

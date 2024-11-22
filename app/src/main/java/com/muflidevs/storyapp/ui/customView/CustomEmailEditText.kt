@@ -24,29 +24,31 @@ class CustomEmailEditText @JvmOverloads constructor(
         iconUserImage = ContextCompat.getDrawable(context, R.drawable.mail_icon) as Drawable
         setOnTouchListener(this)
 
-        addTextChangedListener(object: TextWatcher {
+        addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                if(s.toString().isEmpty()) showUserIcon()
-                else if(s.toString().isNotEmpty()) showClearButton()
+                if (s.toString().isEmpty()) showUserIcon()
+                else if (s.toString().isNotEmpty()) showClearButton()
                 else hideClearButton()
-                if(!HelperCustomView.isValidEmail(s.toString())) error = "Email Tidak Valid"
+                if (!HelperCustomView.isValidEmail(s.toString())) error = "Email Tidak Valid"
 
-            }  
+            }
+
             override fun afterTextChanged(s: Editable?) {
             }
 
         })
     }
+
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        if(compoundDrawables[2] != null) {
+        if (compoundDrawables[2] != null) {
             val clearButtonStart: Float
             val clearButtonEnd: Float
             var isClearButtonClicked = false
 
-            if(layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+            if (layoutDirection == View.LAYOUT_DIRECTION_RTL) {
                 clearButtonEnd = (clearButtonImage.intrinsicWidth + paddingStart).toFloat()
                 when {
                     event!!.x < clearButtonEnd -> isClearButtonClicked = true
@@ -57,16 +59,20 @@ class CustomEmailEditText @JvmOverloads constructor(
                     event!!.x > clearButtonStart -> isClearButtonClicked = true
                 }
             }
-            if(isClearButtonClicked) {
-                when(event!!.action) {
+            if (isClearButtonClicked) {
+                when (event!!.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        clearButtonImage = ContextCompat.getDrawable(context, R.drawable.close_icon) as Drawable
+                        clearButtonImage =
+                            ContextCompat.getDrawable(context, R.drawable.close_icon) as Drawable
                         showClearButton()
                         return true
                     }
+
                     MotionEvent.ACTION_UP -> {
-                        clearButtonImage = ContextCompat.getDrawable(context, R.drawable.close_icon) as Drawable
-                        iconUserImage = ContextCompat.getDrawable(context, R.drawable.mail_icon) as Drawable
+                        clearButtonImage =
+                            ContextCompat.getDrawable(context, R.drawable.close_icon) as Drawable
+                        iconUserImage =
+                            ContextCompat.getDrawable(context, R.drawable.mail_icon) as Drawable
                         when {
                             (text != null) -> text?.clear()
                         }
@@ -74,6 +80,7 @@ class CustomEmailEditText @JvmOverloads constructor(
                         showUserIcon()
                         return true
                     }
+
                     else -> return false
                 }
             } else return false
@@ -83,7 +90,7 @@ class CustomEmailEditText @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        hint ="Email"
+        hint = "Email"
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
         textSize = 20f
     }
@@ -92,6 +99,7 @@ class CustomEmailEditText @JvmOverloads constructor(
         super.setAlpha(alpha)
         invalidate()
     }
+
     private fun showClearButton() {
         setButtonDrawables(endOfTheText = clearButtonImage)
     }
@@ -99,6 +107,7 @@ class CustomEmailEditText @JvmOverloads constructor(
     private fun hideClearButton() {
         setButtonDrawables()
     }
+
     private fun showUserIcon() {
         setButtonDrawables(startOfTheText = iconUserImage)
     }

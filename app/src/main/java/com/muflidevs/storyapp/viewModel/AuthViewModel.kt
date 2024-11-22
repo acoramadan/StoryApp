@@ -9,7 +9,7 @@ import com.muflidevs.storyapp.data.remote.response.LoginResponse
 import com.muflidevs.storyapp.data.remote.response.RegisterResponse
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val repository: AuthRepository): ViewModel() {
+class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
     private val _loginResult = MutableLiveData<LoginResponse>()
     val loginResult: LiveData<LoginResponse> get() = _loginResult
 
@@ -26,7 +26,7 @@ class AuthViewModel(private val repository: AuthRepository): ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val result = repository.login(email,password)
+                val result = repository.login(email, password)
                 _loginResult.postValue(result)
             } catch (e: Exception) {
                 _error.postValue(e.message)
@@ -40,11 +40,11 @@ class AuthViewModel(private val repository: AuthRepository): ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val result = repository.register(username,email,password)
+                val result = repository.register(username, email, password)
                 _registerResult.postValue(result)
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 _error.postValue(e.message)
-            }finally {
+            } finally {
                 _isLoading.value = false
             }
         }

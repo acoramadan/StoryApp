@@ -12,22 +12,27 @@ import com.muflidevs.storyapp.R
 class CustomButton : AppCompatButton {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+
     private var txtColor: Int = 0
     private var enabledBackground: Drawable
     private var disabledBackground: Drawable
 
     init {
         txtColor = ContextCompat.getColor(context, R.color.white)
-        enabledBackground = ContextCompat.getDrawable(context,R.drawable.custom_bg_button) as Drawable
-        disabledBackground = ContextCompat.getDrawable(context, R.drawable.custom_bg_btn_disable) as Drawable
+        enabledBackground =
+            ContextCompat.getDrawable(context, R.drawable.custom_bg_button) as Drawable
+        disabledBackground =
+            ContextCompat.getDrawable(context, R.drawable.custom_bg_btn_disable) as Drawable
 
     }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        background = if(isEnabled) enabledBackground else disabledBackground
+        background = if (isEnabled) enabledBackground else disabledBackground
         setTextColor(txtColor)
         textSize = 12f
         gravity = Gravity.CENTER
-        text = if(isEnabled) "Submit" else "Silahkan mengisi form di atas"
+        text =
+            if (isEnabled) context.getText(R.string.submit) else context.getText(R.string.btn_validation)
     }
 }

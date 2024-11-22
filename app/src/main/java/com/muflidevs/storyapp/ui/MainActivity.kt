@@ -42,26 +42,27 @@ class MainActivity : AppCompatActivity() {
         loadingProgressBar = binding.progressBar
         logoutBtn = binding.logoutBtn
         addBtn = binding.addBtn
-        authRepository = AuthRepository(ApiConfig.getApiService(),this)
-        factory = StoryViewModelFactory(StoryRepository(ApiConfig.getApiService(authRepository.getToken())))
-        viewModel = ViewModelProvider(this,factory)[StoryViewModel::class.java]
+        authRepository = AuthRepository(ApiConfig.getApiService(), this)
+        factory =
+            StoryViewModelFactory(StoryRepository(ApiConfig.getApiService(authRepository.getToken())))
+        viewModel = ViewModelProvider(this, factory)[StoryViewModel::class.java]
 
         storiesAdapter = StoryListAdapater(this@MainActivity) { stories ->
-            val intent = Intent(this@MainActivity,DetailActivity::class.java)
-            intent.putExtra("EXTRA_ID",stories.id)
-            intent.putExtra("EXTRA_TOKEN",authRepository.getToken())
-            Log.d("Main Activity",stories.id!!)
+            val intent = Intent(this@MainActivity, DetailActivity::class.java)
+            intent.putExtra("EXTRA_ID", stories.id)
+            intent.putExtra("EXTRA_TOKEN", authRepository.getToken())
+            Log.d("Main Activity", stories.id!!)
             startActivity(intent)
         }
-        logoutBtn.setOnClickListener{
+        logoutBtn.setOnClickListener {
             authRepository.clearToken()
-            val intent = Intent(this@MainActivity,LoginActivity::class.java)
+            val intent = Intent(this@MainActivity, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
 
-        addBtn.setOnClickListener{
-            val intent = Intent(this@MainActivity,AddActivity::class.java)
+        addBtn.setOnClickListener {
+            val intent = Intent(this@MainActivity, AddActivity::class.java)
             startActivity(intent)
         }
 
@@ -72,11 +73,11 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.stories.observe(this) { storyList ->
             Log.d("MainActivity", "Stories received: ${storyList?.size ?: 0}")
-            if(storyList != null) storiesAdapter.submitList(storyList)
+            if (storyList != null) storiesAdapter.submitList(storyList)
         }
         viewModel.error.observe(this) { errorMsg ->
             Log.e("MainActivity", "Error fetching stories: $errorMsg")
-            showToast(this,errorMsg)
+            showToast(this, errorMsg)
         }
         viewModel.isLoading.observe(this) {
             showLoading(it)
@@ -96,22 +97,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLoading(loading: Boolean) {
-        loadingProgressBar.visibility = if(loading) View.VISIBLE else View.GONE
+        loadingProgressBar.visibility = if (loading) View.VISIBLE else View.GONE
     }
 
     private fun resumeFetchStory() {
         handler = Handler(Looper.getMainLooper())
-        pollingRunnable = object: Runnable {
+        pollingRunnable = object : Runnable {
             override fun run() {
                 viewModel.fetchStory()
-                handler.postDelayed(this,2000)
+                handler.postDelayed(this, 2000)
             }
         }
         handler.post(pollingRunnable)
     }
 
     private fun stopFetchStory() {
-        if(::handler.isInitialized && ::pollingRunnable.isInitialized) {
+        if (::handler.isInitialized && ::pollingRunnable.isInitialized) {
             handler.removeCallbacks(pollingRunnable)
         }
     }

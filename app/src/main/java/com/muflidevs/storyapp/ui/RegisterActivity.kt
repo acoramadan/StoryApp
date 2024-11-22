@@ -37,7 +37,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         //api
-        viewModel = AuthViewModel(AuthRepository(ApiConfig.getApiService(),this))
+        viewModel = AuthViewModel(AuthRepository(ApiConfig.getApiService(), this))
         loadingBar = binding.progressBar
         loginTv = binding.loginTv
         userNameEdtTxt = binding.edRegisterName
@@ -52,14 +52,14 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             val name = userNameEdtTxt.text.toString()
             val email = emailEdtTxt.text.toString()
             val password = passwordEdtTxt.text.toString()
-            viewModel.register(name,email,password)
+            viewModel.register(name, email, password)
             viewModel.isLoading.observe(this) {
                 showLoading(it)
             }
             viewModel.registerResult.observe(this) { registerResult ->
-                if(!registerResult.error!!) {
-                    showToast(this@RegisterActivity,"Registrasi Berhasil Silahkan Login")
-                    val intent = Intent(this@RegisterActivity,LoginActivity::class.java)
+                if (!registerResult.error!!) {
+                    showToast(this@RegisterActivity, "Registrasi Berhasil Silahkan Login")
+                    val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
@@ -68,14 +68,20 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        HelperCustomView.setMyButtonEnabled(userNameEdtTxt,emailEdtTxt,passwordEdtTxt,submitBtn)
-        HelperCustomView.checkUserInput(userNameEdtTxt,emailEdtTxt,passwordEdtTxt,submitBtn)
-        HelperAnimation.playAnimation(userNameEdtTxt,emailEdtTxt,passwordEdtTxt,submitBtn,loginTv)
+        HelperCustomView.setMyButtonEnabled(userNameEdtTxt, emailEdtTxt, passwordEdtTxt, submitBtn)
+        HelperCustomView.checkUserInput(userNameEdtTxt, emailEdtTxt, passwordEdtTxt, submitBtn)
+        HelperAnimation.playAnimation(
+            userNameEdtTxt,
+            emailEdtTxt,
+            passwordEdtTxt,
+            submitBtn,
+            loginTv
+        )
     }
 
 
     override fun onClick(view: View?) {
-        when(view?.id) {
+        when (view?.id) {
             R.id.login_tv -> {
                 val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                 startActivity(intent)
@@ -83,7 +89,8 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
     private fun showLoading(loading: Boolean) {
-        loadingBar.visibility = if(loading) View.VISIBLE else View.GONE
+        loadingBar.visibility = if (loading) View.VISIBLE else View.GONE
     }
 }

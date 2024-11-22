@@ -12,7 +12,7 @@ import com.muflidevs.storyapp.data.remote.response.Story
 import kotlinx.coroutines.launch
 import java.io.File
 
-class StoryViewModel(private val repository: StoryRepository): ViewModel() {
+class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
 
     private val _stories = MutableLiveData<List<Story>?>()
     val stories: LiveData<List<Story>?> get() = _stories
@@ -37,20 +37,21 @@ class StoryViewModel(private val repository: StoryRepository): ViewModel() {
             _isLoading.value = true
             try {
                 val response = repository.postNewStories(description, filePhoto)
-                if(response.isSuccessful && response.body() != null) {
+                if (response.isSuccessful && response.body() != null) {
                     _uploadStory.postValue(response.body())
                     Log.d("Upload", "Success: ${response.body()?.message}")
                 } else {
                     _error.postValue(response.errorBody()?.string())
                     Log.e("Upload", "Error: ${response.code()} - ${response.errorBody()?.string()}")
                 }
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 _error.postValue(e.message)
             } finally {
                 _isLoading.value = false
             }
         }
     }
+
     fun fetchStory() {
         viewModelScope.launch {
             _isLoading.value = true
@@ -60,12 +61,13 @@ class StoryViewModel(private val repository: StoryRepository): ViewModel() {
                 _stories.postValue(storyList)
             } catch (e: Exception) {
                 _error.postValue(e.message)
-                Log.e("StoryViewModel",e.message!!)
+                Log.e("StoryViewModel", e.message!!)
             } finally {
                 _isLoading.value = false
             }
         }
     }
+
     fun getDetailStory(id: String) {
         viewModelScope.launch {
             try {
@@ -76,6 +78,7 @@ class StoryViewModel(private val repository: StoryRepository): ViewModel() {
             }
         }
     }
+
     fun setImageUri(uri: Uri?) {
         _imageUri.value = uri!!
     }

@@ -12,76 +12,92 @@ import com.muflidevs.storyapp.ui.customView.CustomUsernameEditText
 
 object HelperCustomView {
     fun isValidEmail(target: CharSequence?): Boolean {
-        if(TextUtils.isEmpty(target)) return false
+        if (TextUtils.isEmpty(target)) return false
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target!!).matches()
     }
 
-    fun showToast(context: Context,message: String?) {
+    fun showToast(context: Context, message: String?) {
         val display = message ?: "Ada masalah pepek"
-        Toast.makeText(context,display,Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, display, Toast.LENGTH_SHORT).show()
     }
-    fun setMyButtonEnabled(userNameEdtTxt: CustomUsernameEditText,
-                           emailEdtTxt: CustomEmailEditText,
-                           passwordEdtTxt: CustomPasswordEditText,
-                           submitBtn: CustomButton) {
+
+    fun setMyButtonEnabled(
+        userNameEdtTxt: CustomUsernameEditText,
+        emailEdtTxt: CustomEmailEditText,
+        passwordEdtTxt: CustomPasswordEditText,
+        submitBtn: CustomButton
+    ) {
         val resultEmail = emailEdtTxt.text
         val resultPassword = passwordEdtTxt.text
         val resultUsername = userNameEdtTxt.text
         val isEmailNotEmpty = resultEmail != null && emailEdtTxt.toString().isNotEmpty()
-        val isPasswordNotEmpty = resultPassword != null &&  resultPassword.length < 8 && passwordEdtTxt.toString().isNotEmpty()
+        val isPasswordNotEmpty =
+            resultPassword != null && resultPassword.length < 8 && passwordEdtTxt.toString()
+                .isNotEmpty()
         val isUsernameNotEmpty = resultUsername != null && userNameEdtTxt.toString().isNotEmpty()
-        submitBtn.isEnabled = !(isEmailNotEmpty && isPasswordNotEmpty && isUsernameNotEmpty)  && isValidEmail(resultEmail.toString())
+        submitBtn.isEnabled =
+            !(isEmailNotEmpty && isPasswordNotEmpty && isUsernameNotEmpty) && isValidEmail(
+                resultEmail.toString()
+            )
     }
 
-    fun setMyButtonEnabled(emailEdtTxt: CustomEmailEditText,
-                           passwordEdtTxt: CustomPasswordEditText,
-                           submitBtn: CustomButton) {
+    fun setMyButtonEnabled(
+        emailEdtTxt: CustomEmailEditText,
+        passwordEdtTxt: CustomPasswordEditText,
+        submitBtn: CustomButton
+    ) {
         val resultEmail = emailEdtTxt.text
         val resultPassword = passwordEdtTxt.text
         val isEmailNotEmpty = resultEmail != null && emailEdtTxt.toString().isNotEmpty()
-        val isPasswordNotEmpty = resultPassword != null &&  resultPassword.length < 8 && passwordEdtTxt.toString().isNotEmpty()
-        submitBtn.isEnabled = !(isEmailNotEmpty && isPasswordNotEmpty) && isValidEmail(resultEmail.toString())
+        val isPasswordNotEmpty =
+            resultPassword != null && resultPassword.length < 8 && passwordEdtTxt.toString()
+                .isNotEmpty()
+        submitBtn.isEnabled =
+            !(isEmailNotEmpty && isPasswordNotEmpty) && isValidEmail(resultEmail.toString())
     }
 
     // method ini untuk halaman register
-    fun checkUserInput (userNameEdtTxt: CustomUsernameEditText,
-                        emailEdtTxt: CustomEmailEditText,
-                        passwordEdtTxt: CustomPasswordEditText,
-                        submitBtn: CustomButton) {
-        emailEdtTxt.addTextChangedListener(object: TextWatcher {
+    fun checkUserInput(
+        userNameEdtTxt: CustomUsernameEditText,
+        emailEdtTxt: CustomEmailEditText,
+        passwordEdtTxt: CustomPasswordEditText,
+        submitBtn: CustomButton
+    ) {
+        emailEdtTxt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                setMyButtonEnabled(userNameEdtTxt,emailEdtTxt,passwordEdtTxt,submitBtn)
+                setMyButtonEnabled(userNameEdtTxt, emailEdtTxt, passwordEdtTxt, submitBtn)
             }
 
             override fun afterTextChanged(p0: Editable?) {
             }
 
         })
-        passwordEdtTxt.addTextChangedListener(object: TextWatcher {
+        passwordEdtTxt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                setMyButtonEnabled(userNameEdtTxt,emailEdtTxt,passwordEdtTxt,submitBtn)
+                setMyButtonEnabled(userNameEdtTxt, emailEdtTxt, passwordEdtTxt, submitBtn)
             }
 
             override fun afterTextChanged(p0: Editable?) {
             }
 
         })
-        userNameEdtTxt.addTextChangedListener(object: TextWatcher {
+        userNameEdtTxt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                setMyButtonEnabled(userNameEdtTxt,emailEdtTxt,passwordEdtTxt,submitBtn)
+                setMyButtonEnabled(userNameEdtTxt, emailEdtTxt, passwordEdtTxt, submitBtn)
             }
+
             override fun afterTextChanged(p0: Editable?) {
 
             }
@@ -90,29 +106,31 @@ object HelperCustomView {
     }
 
     // method ini untuk halaman login
-    fun checkUserInput (emailEdtTxt: CustomEmailEditText,
-                        passwordEdtTxt: CustomPasswordEditText,
-                        submitBtn: CustomButton) {
-        emailEdtTxt.addTextChangedListener(object: TextWatcher {
+    fun checkUserInput(
+        emailEdtTxt: CustomEmailEditText,
+        passwordEdtTxt: CustomPasswordEditText,
+        submitBtn: CustomButton
+    ) {
+        emailEdtTxt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                setMyButtonEnabled(emailEdtTxt,passwordEdtTxt,submitBtn)
+                setMyButtonEnabled(emailEdtTxt, passwordEdtTxt, submitBtn)
             }
 
             override fun afterTextChanged(p0: Editable?) {
             }
 
         })
-        passwordEdtTxt.addTextChangedListener(object: TextWatcher {
+        passwordEdtTxt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                setMyButtonEnabled(emailEdtTxt,passwordEdtTxt,submitBtn)
+                setMyButtonEnabled(emailEdtTxt, passwordEdtTxt, submitBtn)
             }
 
             override fun afterTextChanged(p0: Editable?) {
