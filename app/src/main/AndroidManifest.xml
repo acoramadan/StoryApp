@@ -15,7 +15,8 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -26,6 +27,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StoryApp"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
+        <activity
+            android:name=".ui.MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps" />
+
         <receiver
             android:name=".ui.widget.ImageBannerWidget"
             android:exported="false">
@@ -66,8 +77,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <service
-            android:name="com.muflidevs.storyapp.helper.StackWidgetService"
+            android:name=".helper.StackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 

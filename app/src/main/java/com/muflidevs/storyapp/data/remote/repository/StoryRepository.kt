@@ -11,8 +11,8 @@ import retrofit2.Response
 import java.io.File
 
 class StoryRepository(private val api: ApiService) {
-    suspend fun getStories(): List<Story>? {
-        val response = api.getAllStories()
+    suspend fun getStories(location: Int = 0): List<Story>? {
+        val response = api.getAllStories(location = location)
         if (response.isSuccessful && response.body() != null) {
             return response.body()!!.listStory
         } else {

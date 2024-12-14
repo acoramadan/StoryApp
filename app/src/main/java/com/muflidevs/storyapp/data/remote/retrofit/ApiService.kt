@@ -50,4 +50,6 @@ interface ApiService {
     suspend fun getDetailStories(
         @Path("id") storyId: String
     ): Response<DetailStoryResponse>
+
+
 }

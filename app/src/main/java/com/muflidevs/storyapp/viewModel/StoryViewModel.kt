@@ -52,11 +52,11 @@ class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
         }
     }
 
-    fun fetchStory() {
+    fun fetchStory(location: Int = 0) {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val storyList = repository.getStories()
+                val storyList = repository.getStories(location = location)
                 Log.d("StoryViewModel", "Fetched stories: ${storyList!!.size}")
                 _stories.postValue(storyList)
             } catch (e: Exception) {

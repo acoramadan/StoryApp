@@ -23,4 +23,10 @@
     <string name="empty_text">empty Text</string>
     <string name="btn_validation"> please fill out the form above</string>
     <string name="widget_image">widget image</string>
+    <string name="maps">Maps</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="normal_type">Normal</string>
+    <string name="satellite_type">Satellite</string>
+    <string name="terrain_type">Terrain</string>
+    <string name="hybrid_type">Hybrid</string>
 </resources>

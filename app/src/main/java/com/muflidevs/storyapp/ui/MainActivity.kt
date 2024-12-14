@@ -12,7 +12,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.muflidevs.storyapp.R
 import com.muflidevs.storyapp.data.remote.repository.AuthRepository
 import com.muflidevs.storyapp.data.remote.repository.StoryRepository
 import com.muflidevs.storyapp.data.remote.retrofit.ApiConfig
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var authRepository: AuthRepository
     private lateinit var storiesAdapter: StoryListAdapater
     private lateinit var loadingProgressBar: ProgressBar
+    private lateinit var bottomNav: BottomNavigationView
     private lateinit var handler: Handler
     private lateinit var pollingRunnable: Runnable
 
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         loadingProgressBar = binding.progressBar
         logoutBtn = binding.logoutBtn
         addBtn = binding.addBtn
+        bottomNav = binding.bottomNavigation
         authRepository = AuthRepository(ApiConfig.getApiService(), this)
         factory =
             StoryViewModelFactory(StoryRepository(ApiConfig.getApiService(authRepository.getToken())))
@@ -70,7 +74,26 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = storiesAdapter
         }
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
 
+                R.id.bottom_navigation_logout -> {
+                    authRepository.clearToken()
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                    true
+                }
+
+                R.id.bottom_navigation_maps -> {
+                    val intent = Intent(this@MainActivity, MapsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                else -> false
+            }
+        }
         viewModel.stories.observe(this) { storyList ->
             Log.d("MainActivity", "Stories received: ${storyList?.size ?: 0}")
             if (storyList != null) storiesAdapter.submitList(storyList)

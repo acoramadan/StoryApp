@@ -39,10 +39,10 @@ data class Story(
     var createdAt: String? = null,
 
     @field:SerializedName("lat")
-    var lat: Float? = null,
+    var lat: Double? = null,
 
     @field:SerializedName("lon")
-    var lon: Float? = null,
+    var lon: Double? = null,
 
     )
 
@@ -55,5 +55,6 @@ data class DetailStoryResponse(
 
     @field:SerializedName("story")
     var story: Story
+
 )
 

@@ -48,9 +48,18 @@
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/tertiary"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/bottom_navigation_menu"
+            android:background="@color/tertiary"
+            app:labelVisibilityMode="selected"/>
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_btn"
