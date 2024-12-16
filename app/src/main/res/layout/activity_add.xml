@@ -110,6 +110,21 @@
         app:layout_constraintTop_toBottomOf="@+id/ed_add_description"
         app:layout_constraintVertical_bias="0.383" />
 
+    <Button
+        android:id="@+id/button_add_with_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/tertiary"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/submit_with_location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_add_description"
+        app:layout_constraintVertical_bias="0.800" />
+
     <ProgressBar
         android:id="@+id/progressBar2"
         style="?android:attr/progressBarStyleHorizontal"

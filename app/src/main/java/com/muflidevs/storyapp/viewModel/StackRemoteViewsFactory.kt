@@ -9,6 +9,7 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import androidx.core.os.bundleOf
 import com.muflidevs.storyapp.R
+import com.muflidevs.storyapp.data.local.DatabaseProvider
 import com.muflidevs.storyapp.data.remote.repository.AuthRepository
 import com.muflidevs.storyapp.data.remote.repository.StoryRepository
 import com.muflidevs.storyapp.data.remote.retrofit.ApiConfig
@@ -30,7 +31,10 @@ class StackRemoteViewsFactory(private val mContext: Context) :
             runBlocking {
                 val authRepository =
                     AuthRepository(ApiConfig.getApiService(), mContext.applicationContext)
-                val storyRepo = StoryRepository(ApiConfig.getApiService(authRepository.getToken()))
+                val storyRepo = StoryRepository(
+                    ApiConfig.getApiService(authRepository.getToken()),
+                    DatabaseProvider.getDatabase(mContext).storyDao()
+                )
 
                 mWidgetItems.clear()
 

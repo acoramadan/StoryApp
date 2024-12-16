@@ -4,15 +4,17 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.muflidevs.storyapp.data.remote.response.Story
 import com.muflidevs.storyapp.databinding.ItemListBinding
 
-class StoryListAdapater(private val context: Context, private val onItemClicked: (Story) -> Unit) :
-    ListAdapter<Story, StoryListAdapater.StoryViewHolder>(DIFF_CALLBACK) {
+class StoryListAdapter(
+    private val context: Context,
+    private val onItemClicked: (Story) -> Unit
+) : PagingDataAdapter<Story, StoryListAdapter.StoryViewHolder>(DIFF_CALLBACK) {
 
     inner class StoryViewHolder(private var binding: ItemListBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -35,8 +37,8 @@ class StoryListAdapater(private val context: Context, private val onItemClicked:
     }
 
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
-        val detailStory = getItem(position)
-        holder.bind(detailStory, onItemClicked)
+        val story = getItem(position)
+        story?.let { holder.bind(it, onItemClicked) }
     }
 
     companion object {
@@ -48,7 +50,6 @@ class StoryListAdapater(private val context: Context, private val onItemClicked:
             override fun areContentsTheSame(oldItem: Story, newItem: Story): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 }

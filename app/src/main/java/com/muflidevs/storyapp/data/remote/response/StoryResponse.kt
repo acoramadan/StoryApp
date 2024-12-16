@@ -1,5 +1,8 @@
 package com.muflidevs.storyapp.data.remote.response
 
+import androidx.annotation.NonNull
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 
@@ -22,9 +25,10 @@ data class PostStoryResponse(
     val message: String? = null
 )
 
+@Entity(tableName = "stories")
 data class Story(
     @field:SerializedName("id")
-    var id: String? = null,
+    @PrimaryKey var id: String,
 
     @field:SerializedName("name")
     var name: String? = null,

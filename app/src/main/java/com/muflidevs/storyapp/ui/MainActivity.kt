@@ -15,14 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.muflidevs.storyapp.R
+import com.muflidevs.storyapp.data.local.DatabaseProvider
 import com.muflidevs.storyapp.data.remote.repository.AuthRepository
 import com.muflidevs.storyapp.data.remote.repository.StoryRepository
 import com.muflidevs.storyapp.data.remote.retrofit.ApiConfig
 import com.muflidevs.storyapp.databinding.ActivityMainBinding
 import com.muflidevs.storyapp.helper.HelperCustomView.showToast
-import com.muflidevs.storyapp.ui.adapter.StoryListAdapater
+import com.muflidevs.storyapp.ui.adapter.StoryListAdapter
 import com.muflidevs.storyapp.viewModel.StoryViewModel
 import com.muflidevs.storyapp.viewModel.StoryViewModelFactory
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var factory: StoryViewModelFactory
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var logoutBtn: Button
     private lateinit var addBtn: FloatingActionButton
     private lateinit var authRepository: AuthRepository
-    private lateinit var storiesAdapter: StoryListAdapater
+    private lateinit var storiesAdapter: StoryListAdapter
     private lateinit var loadingProgressBar: ProgressBar
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var handler: Handler
@@ -42,20 +44,32 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        storiesAdapter = StoryListAdapter(this) { story ->
+            val intent = Intent(this@MainActivity, DetailActivity::class.java)
+            intent.putExtra("EXTRA_ID", story.id)
+            startActivity(intent)
+        }
         loadingProgressBar = binding.progressBar
         logoutBtn = binding.logoutBtn
         addBtn = binding.addBtn
         bottomNav = binding.bottomNavigation
         authRepository = AuthRepository(ApiConfig.getApiService(), this)
         factory =
-            StoryViewModelFactory(StoryRepository(ApiConfig.getApiService(authRepository.getToken())))
+            StoryViewModelFactory(
+                StoryRepository(
+                    ApiConfig.getApiService(
+                        authRepository.getToken(),
+                    ),
+                    DatabaseProvider.getDatabase(this).storyDao()
+                )
+            )
         viewModel = ViewModelProvider(this, factory)[StoryViewModel::class.java]
 
-        storiesAdapter = StoryListAdapater(this@MainActivity) { stories ->
+        storiesAdapter = StoryListAdapter(this@MainActivity) { stories ->
             val intent = Intent(this@MainActivity, DetailActivity::class.java)
             intent.putExtra("EXTRA_ID", stories.id)
             intent.putExtra("EXTRA_TOKEN", authRepository.getToken())
-            Log.d("Main Activity", stories.id!!)
+            Log.d("Main Activity", stories.id)
             startActivity(intent)
         }
         logoutBtn.setOnClickListener {
@@ -94,9 +108,8 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-        viewModel.stories.observe(this) { storyList ->
-            Log.d("MainActivity", "Stories received: ${storyList?.size ?: 0}")
-            if (storyList != null) storiesAdapter.submitList(storyList)
+        viewModel.pagedStories.observe(this) { pagingData ->
+            storiesAdapter.submitData(lifecycle, pagingData)
         }
         viewModel.error.observe(this) { errorMsg ->
             Log.e("MainActivity", "Error fetching stories: $errorMsg")
@@ -106,9 +119,8 @@ class MainActivity : AppCompatActivity() {
             showLoading(it)
         }
 
-        viewModel.fetchStory()
+        viewModel.fetchPagedStories(0)
     }
-
     override fun onResume() {
         super.onResume()
         resumeFetchStory()
@@ -118,16 +130,11 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         stopFetchStory()
     }
-
-    private fun showLoading(loading: Boolean) {
-        loadingProgressBar.visibility = if (loading) View.VISIBLE else View.GONE
-    }
-
     private fun resumeFetchStory() {
         handler = Handler(Looper.getMainLooper())
         pollingRunnable = object : Runnable {
             override fun run() {
-                viewModel.fetchStory()
+                viewModel.fetchPagedStories(0)
                 handler.postDelayed(this, 2000)
             }
         }
@@ -139,5 +146,7 @@ class MainActivity : AppCompatActivity() {
             handler.removeCallbacks(pollingRunnable)
         }
     }
-
+    private fun showLoading(loading: Boolean) {
+        loadingProgressBar.visibility = if (loading) View.VISIBLE else View.GONE
+    }
 }

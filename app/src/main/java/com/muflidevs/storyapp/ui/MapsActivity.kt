@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.muflidevs.storyapp.R
+import com.muflidevs.storyapp.data.local.DatabaseProvider
 import com.muflidevs.storyapp.data.remote.repository.AuthRepository
 import com.muflidevs.storyapp.data.remote.repository.StoryRepository
 import com.muflidevs.storyapp.data.remote.retrofit.ApiConfig
@@ -51,7 +52,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         authRepository = AuthRepository(ApiConfig.getApiService(), this)
         factory =
-            StoryViewModelFactory(StoryRepository(ApiConfig.getApiService(authRepository.getToken())))
+            StoryViewModelFactory(
+                StoryRepository(
+                    ApiConfig.getApiService(authRepository.getToken()),
+                    DatabaseProvider.getDatabase(this).storyDao()
+                )
+            )
         storyViewModel = ViewModelProvider(this, factory)[StoryViewModel::class.java]
     }
 

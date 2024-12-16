@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
+    //noinspection GradleDependency
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
@@ -54,6 +56,18 @@ dependencies {
 
     // coroutine
     implementation(libs.kotlinx.coroutines.android)
+
+    //pagination
+    implementation(libs.androidx.paging.runtime.ktx)
+
+    //maps
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
+
+    //room
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

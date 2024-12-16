@@ -6,6 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.muflidevs.storyapp.data.remote.repository.StoryRepository
 import com.muflidevs.storyapp.data.remote.response.PostStoryResponse
 import com.muflidevs.storyapp.data.remote.response.Story
@@ -16,6 +20,9 @@ class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
 
     private val _stories = MutableLiveData<List<Story>?>()
     val stories: LiveData<List<Story>?> get() = _stories
+
+    private val _pagedStories = MutableLiveData<PagingData<Story>>()
+    val pagedStories: LiveData<PagingData<Story>> get() = _pagedStories
 
     private val _story = MutableLiveData<Story>()
     val story: LiveData<Story> get() = _story
@@ -52,6 +59,26 @@ class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
         }
     }
 
+    fun uploadStoryWithLocation(description: String, filePhoto: File,lat: Double, lon: Double) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val response = repository.postNewStoriesWithLocation(description, filePhoto,lat,lon)
+                if (response.isSuccessful && response.body() != null) {
+                    _uploadStory.postValue(response.body())
+                    Log.d("Upload", "Success: ${response.body()?.message}")
+                } else {
+                    _error.postValue(response.errorBody()?.string())
+                    Log.e("Upload", "Error: ${response.code()} - ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                _error.postValue(e.message)
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
     fun fetchStory(location: Int = 0) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -68,6 +95,27 @@ class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
         }
     }
 
+    fun fetchPagedStories(location: Int) {
+        _isLoading.value = true
+        val pagingSource = repository.getPagedStories(location)
+
+        val pager = Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { pagingSource }
+        )
+
+        viewModelScope.launch {
+            pager.flow.cachedIn(viewModelScope).collect { pagingData ->
+                _pagedStories.postValue(pagingData)
+                _isLoading.value = false
+            }
+        }
+    }
+
+
     fun getDetailStory(id: String) {
         viewModelScope.launch {
             try {
@@ -81,5 +129,9 @@ class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
 
     fun setImageUri(uri: Uri?) {
         _imageUri.value = uri!!
+    }
+
+    fun refreshStories(location: Int) {
+        fetchPagedStories(location)
     }
 }

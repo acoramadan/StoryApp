@@ -1,13 +1,17 @@
 package com.muflidevs.storyapp.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -17,7 +21,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.muflidevs.storyapp.data.local.DatabaseProvider
 import com.muflidevs.storyapp.data.remote.repository.AuthRepository
 import com.muflidevs.storyapp.data.remote.repository.StoryRepository
 import com.muflidevs.storyapp.data.remote.retrofit.ApiConfig
@@ -38,6 +47,7 @@ class AddActivity : AppCompatActivity() {
     private lateinit var cameraBtn: Button
     private lateinit var galeriBtn: Button
     private lateinit var backButton: Button
+    private lateinit var submitBtnWithLocation: Button
     private lateinit var descriptionEdtTxt: EditText
     private lateinit var submitBtn: Button
     private lateinit var viewModel: StoryViewModel
@@ -45,7 +55,9 @@ class AddActivity : AppCompatActivity() {
     private lateinit var factory: StoryViewModelFactory
     private lateinit var authRepository: AuthRepository
     private var curretImage: Uri? = null
-
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var lat: Double? = 0.0
+    private var lon: Double? = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -57,10 +69,19 @@ class AddActivity : AppCompatActivity() {
         submitBtn = binding.buttonAdd
         cameraBtn = binding.camera
         progressBar = binding.progressBar2
+        submitBtnWithLocation = binding.buttonAddWithLocation
+
         authRepository = AuthRepository(ApiConfig.getApiService(), this)
         factory =
-            StoryViewModelFactory(StoryRepository(ApiConfig.getApiService(authRepository.getToken())))
+            StoryViewModelFactory(
+                StoryRepository(
+                    ApiConfig.getApiService(authRepository.getToken()),
+                    DatabaseProvider.getDatabase(this).storyDao()
+                )
+            )
         viewModel = ViewModelProvider(this, factory)[StoryViewModel::class.java]
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         backButton.setOnClickListener {
             finish()
         }
@@ -80,6 +101,53 @@ class AddActivity : AppCompatActivity() {
                     "AddActivity",
                     "File Path: ${file.absolutePath}, Exists: ${file.exists()}, Size: ${file.length()}"
                 )
+            } else {
+                showToast(this, "Gambar dan Deskripsi tidak boleh kosong")
+            }
+        }
+        submitBtnWithLocation.setOnClickListener {
+            val description = binding.edAddDescription.text.toString()
+            if (curretImage != null && description.isNotEmpty()) {
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    showToast(this, "Izin diperlukan untuk mengakses lokasi")
+
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(intent)
+                } else {
+                    fusedLocationClient.lastLocation
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val location = task.result
+                                if (location != null) {
+                                    val file = uriToFile(curretImage!!, this).reduceFileImage()
+                                    lat = location.latitude
+                                    lon = location.longitude
+                                    viewModel.uploadStoryWithLocation(
+                                        description,
+                                        file,
+                                        lat ?: 0.0,
+                                        lon ?: 0.0
+                                    )
+                                    Log.d(
+                                        "AddActivity",
+                                        "File Path: ${file.absolutePath}, Exists: ${file.exists()}, Size: ${file.length()}"
+                                    )
+                                } else {
+                                    showToast(this, "Lokasi tidak ditemukan, pastikan GPS aktif")
+                                }
+                            } else {
+                                showToast(this, "Gagal mendapatkan lokasi")
+                            }
+                        }
+                }
             } else {
                 showToast(this, "Gambar dan Deskripsi tidak boleh kosong")
             }
@@ -163,8 +231,8 @@ class AddActivity : AppCompatActivity() {
     @SuppressLint("ObsoleteSdkInt")
     private fun startCamera() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(Manifest.permission.CAMERA), 101)
                 return
             }
         }
@@ -222,5 +290,50 @@ class AddActivity : AppCompatActivity() {
 
     private fun showLoading(loading: Boolean) {
         progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    getMyLastLocation()
+                }
+
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    getMyLastLocation()
+                }
+
+                else -> {
+                }
+            }
+        }
+
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun getMyLastLocation() {
+        if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                location.let {
+                    lat = it?.latitude
+                    lon = it?.longitude
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
     }
 }

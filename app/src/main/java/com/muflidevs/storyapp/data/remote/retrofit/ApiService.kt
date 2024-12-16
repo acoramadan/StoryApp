@@ -51,5 +51,4 @@ interface ApiService {
         @Path("id") storyId: String
     ): Response<DetailStoryResponse>
 
-
 }

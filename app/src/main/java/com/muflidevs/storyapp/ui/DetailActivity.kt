@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.muflidevs.storyapp.data.local.DatabaseProvider
 import com.muflidevs.storyapp.data.remote.repository.AuthRepository
 import com.muflidevs.storyapp.data.remote.repository.StoryRepository
 import com.muflidevs.storyapp.data.remote.response.Story
@@ -31,7 +32,12 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
         authRepository = AuthRepository(ApiConfig.getApiService(), this)
         factory =
-            StoryViewModelFactory(StoryRepository(ApiConfig.getApiService(authRepository.getToken())))
+            StoryViewModelFactory(
+                StoryRepository(
+                    ApiConfig.getApiService(authRepository.getToken()),
+                    DatabaseProvider.getDatabase(this).storyDao()
+                )
+            )
         viewModel = ViewModelProvider(this, factory)[StoryViewModel::class.java]
         image = binding.ivDetailPhoto
         usernameTv = binding.tvDetailName

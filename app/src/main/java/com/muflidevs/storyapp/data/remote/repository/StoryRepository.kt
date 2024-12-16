@@ -1,5 +1,7 @@
 package com.muflidevs.storyapp.data.remote.repository
 
+import androidx.paging.PagingSource
+import com.muflidevs.storyapp.data.local.StoryDAO
 import com.muflidevs.storyapp.data.remote.response.PostStoryResponse
 import com.muflidevs.storyapp.data.remote.response.Story
 import com.muflidevs.storyapp.data.remote.retrofit.ApiService
@@ -10,7 +12,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 import java.io.File
 
-class StoryRepository(private val api: ApiService) {
+class StoryRepository(private val api: ApiService, private val storyDao: StoryDAO) {
     suspend fun getStories(location: Int = 0): List<Story>? {
         val response = api.getAllStories(location = location)
         if (response.isSuccessful && response.body() != null) {
@@ -41,5 +43,27 @@ class StoryRepository(private val api: ApiService) {
         )
         val response = api.postStories(descriptionBody, multipartBody)
         return response
+    }
+
+    suspend fun postNewStoriesWithLocation(description: String, filePhoto: File,lat: Double, lon: Double): Response<PostStoryResponse> {
+        if (filePhoto.length() > 1024 * 1024) throw IllegalArgumentException("Maximum ukuran foto adalah 1mb!")
+
+        val descriptionBody = description.toRequestBody("text/plain".toMediaType())
+
+        val latBody = lat.toString().toRequestBody("text/plain".toMediaType())
+        val lonBody = lon.toString().toRequestBody("text/plain".toMediaType())
+
+        val image = filePhoto.asRequestBody("image/jpeg".toMediaType())
+        val multipartBody = MultipartBody.Part.createFormData(
+            "photo",
+            filePhoto.name,
+            image
+        )
+        val response = api.postStories(descriptionBody, multipartBody,latBody,lonBody)
+        return response
+    }
+
+    fun getPagedStories(location: Int): PagingSource<Int, Story> {
+        return StoryPagingSource(api, storyDao,location)
     }
 }
