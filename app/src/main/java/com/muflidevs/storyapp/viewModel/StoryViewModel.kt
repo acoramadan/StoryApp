@@ -39,6 +39,9 @@ class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
     private val _uploadStory = MutableLiveData<PostStoryResponse>()
     val uploadStory: LiveData<PostStoryResponse> get() = _uploadStory
 
+    val storys: LiveData<PagingData<Story>> =
+        repository.getStory().cachedIn(viewModelScope)
+
     fun uploadStory(description: String, filePhoto: File) {
         viewModelScope.launch {
             _isLoading.value = true

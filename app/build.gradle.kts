@@ -59,23 +59,46 @@ dependencies {
 
     //pagination
     implementation(libs.androidx.paging.runtime.ktx)
+    implementation("androidx.room:room-paging:2.6.0")
 
     //maps
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
+    implementation(libs.play.services.maps)
 
     //room
     implementation(libs.androidx.room.runtime)
+    androidTestImplementation(libs.androidx.core.testing)
+
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
+    //test
+    androidTestImplementation(libs.androidx.core.testing) //InstantTaskExecutorRule
+    androidTestImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
+    testImplementation(libs.junit.jupiter)
+    androidTestImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.engine)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.androidx.paging.runtime)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.kotlin)
+    testRuntimeOnly(libs.junit.jupiter.engine.v582)
+
+    //android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.play.services.maps)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }
+
+
+
+

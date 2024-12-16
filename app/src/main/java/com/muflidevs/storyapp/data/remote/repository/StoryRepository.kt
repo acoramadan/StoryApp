@@ -1,6 +1,12 @@
 package com.muflidevs.storyapp.data.remote.repository
 
+import androidx.lifecycle.LiveData
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.PagingSource
+import androidx.paging.liveData
 import com.muflidevs.storyapp.data.local.StoryDAO
 import com.muflidevs.storyapp.data.remote.response.PostStoryResponse
 import com.muflidevs.storyapp.data.remote.response.Story
@@ -65,5 +71,18 @@ class StoryRepository(private val api: ApiService, private val storyDao: StoryDA
 
     fun getPagedStories(location: Int): PagingSource<Int, Story> {
         return StoryPagingSource(api, storyDao,location)
+    }
+
+    fun getStory(): LiveData<PagingData<Story>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            remoteMediator = StoryRemoteMediator(api,storyDao),
+            pagingSourceFactory = {
+                storyDao.getAllStory()
+            }
+        ).liveData
     }
 }
