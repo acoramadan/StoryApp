@@ -134,7 +134,4 @@ class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
         _imageUri.value = uri!!
     }
 
-    fun refreshStories(location: Int) {
-        fetchPagedStories(location)
-    }
 }

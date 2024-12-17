@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
         HelperCustomView.setMyButtonEnabled(emailEdtTxt, passwordEdtTxt, submitBtn)
         HelperCustomView.checkUserInput(emailEdtTxt, passwordEdtTxt, submitBtn)
-        HelperAnimation.playAnimation(emailEdtTxt, passwordEdtTxt, submitBtn, registerTv)
+//        HelperAnimation.playAnimation(emailEdtTxt, passwordEdtTxt, submitBtn, registerTv)
 
     }
 

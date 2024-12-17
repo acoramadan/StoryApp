@@ -1,9 +1,8 @@
 [versions]
 agp = "8.6.1"
-coreTesting = "2.1.0"
+coreTesting = "2.2.0"
 glide = "4.16.0"
-junitJupiterApi = "5.7.0"
-junitJupiterEngine = "5.7.0"
+junitJupiterApi = "5.8.2"
 junitJupiterEngineVersion = "5.8.2"
 kotlin = "1.9.22"
 coreKtx = "1.15.0"
@@ -12,23 +11,27 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
 kotlinxCoroutinesAndroid = "1.7.3"
-kotlinxCoroutinesTest = "1.7.1"
+kotlinxCoroutinesTest = "1.7.3"
 lifecycleViewmodelKtx = "2.8.7"
-loggingInterceptor = "4.9.1"
+loggingInterceptor = "4.10.0"
 material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
-mockitoCore = "3.7.7"
+mockitoCore = "4.5.1"
 mockitoInline = "3.7.7"
 mockitoKotlin = "4.1.0"
 playServicesLocation = "21.3.0"
 retrofit = "2.9.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 playServicesMaps = "19.0.0"
-pagingRuntimeKtx = "3.1.0"
-roomPaging = "2.4.0-rc01"
+pagingRuntimeKtx = "3.3.5"
+roomPaging = "2.6.1"
 roomRuntime = "2.6.1"
-junitJupiter = "5.8.1"
+junitJupiter = "5.8.2"
+espressoIntents = "3.4.0"
+espressoIdlingResource = "3.4.0"
+rules = "1.6.1"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,13 +41,14 @@ androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.r
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+androidx-rules = { module = "androidx.test:rules", version.ref = "rules" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "rules" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junitJupiterEngine" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junitJupiterApi" }
 junit-jupiter-engine-v582 = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junitJupiterEngineVersion" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
@@ -61,6 +65,9 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
+room-paging = { module = "androidx.room:room-paging", version.ref = "roomPaging" }
+espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "espressoIntents" }
+androidx-espresso-idling-resource = { module = "androidx.test.espresso:espresso-idling-resource", version.ref = "espressoIdlingResource" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

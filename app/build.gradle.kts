@@ -39,6 +39,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
+        }
+    }
 }
 
 dependencies {
@@ -59,7 +66,7 @@ dependencies {
 
     //pagination
     implementation(libs.androidx.paging.runtime.ktx)
-    implementation("androidx.room:room-paging:2.6.0")
+    implementation(libs.room.paging)
 
     //maps
     implementation(libs.play.services.maps)
@@ -74,22 +81,27 @@ dependencies {
     implementation(libs.androidx.room.ktx)
 
     //test
-    androidTestImplementation(libs.androidx.core.testing) //InstantTaskExecutorRule
-    androidTestImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
+    implementation(libs.androidx.espresso.idling.resource)
+
     testImplementation(libs.junit.jupiter)
-    androidTestImplementation(libs.junit.jupiter)
     testImplementation(libs.junit.jupiter.api)
-    testImplementation(libs.junit.jupiter.engine)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.androidx.paging.runtime)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.kotlin)
     testRuntimeOnly(libs.junit.jupiter.engine.v582)
+
+    androidTestImplementation(libs.androidx.core.testing)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.espresso.intents)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.junit.jupiter)
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.androidx.rules)
 
     //android
     implementation(libs.androidx.core.ktx)

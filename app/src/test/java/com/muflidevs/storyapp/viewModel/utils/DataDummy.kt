@@ -1,6 +1,5 @@
 package com.muflidevs.storyapp.viewModel.utils
 
-import androidx.lifecycle.MutableLiveData
 import com.muflidevs.storyapp.data.remote.response.Story
 
 object DataDummy {

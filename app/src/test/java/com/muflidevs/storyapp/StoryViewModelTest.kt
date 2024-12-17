@@ -1,3 +1,5 @@
+@file:Suppress("SameReturnValue")
+
 package com.muflidevs.storyapp
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -25,6 +27,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
+@Suppress("SameReturnValue")
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class StoryViewModelTest {
@@ -61,12 +64,12 @@ class StoryViewModelTest {
         differ.submitData(actualStory)
 
         assertNotNull(differ.snapshot())
-        assertEquals(dummyStory.size,differ.snapshot().size)
-        assertEquals(dummyStory[0],differ.snapshot()[0])
+        assertEquals(dummyStory.size, differ.snapshot().size)
+        assertEquals(dummyStory[0], differ.snapshot()[0])
     }
 
     @Test
-    fun `when Get Story Empty Should Return No Data`() = runTest{
+    fun `when Get Story Empty Should Return No Data`() = runTest {
         val data: PagingData<Story> = PagingData.from(emptyList())
         val excpectedStory = MutableLiveData<PagingData<Story>>()
         excpectedStory.value = data
@@ -83,8 +86,9 @@ class StoryViewModelTest {
 
         differ.submitData(actualQuote)
 
-        assertEquals(0,differ.snapshot().size)
+        assertEquals(0, differ.snapshot().size)
     }
+
     private val noopListUpdateCallback = object : ListUpdateCallback {
         override fun onInserted(position: Int, count: Int) {
 

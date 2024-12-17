@@ -1,6 +1,5 @@
 package com.muflidevs.storyapp.data.remote.response
 
-import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
