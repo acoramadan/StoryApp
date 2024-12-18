@@ -12,7 +12,6 @@ import com.muflidevs.storyapp.R
 import com.muflidevs.storyapp.data.remote.repository.AuthRepository
 import com.muflidevs.storyapp.data.remote.retrofit.ApiConfig
 import com.muflidevs.storyapp.databinding.ActivityLoginBinding
-import com.muflidevs.storyapp.helper.HelperAnimation
 import com.muflidevs.storyapp.helper.HelperCustomView
 import com.muflidevs.storyapp.helper.HelperCustomView.showToast
 import com.muflidevs.storyapp.ui.customView.CustomButton
@@ -44,7 +43,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         registerTv.setOnClickListener(this)
 
         submitBtn.setOnClickListener {
+
             viewModel.login(emailEdtTxt.text.toString(), passwordEdtTxt.text.toString())
+
             Log.d(
                 "LoginActivity",
                 "{${emailEdtTxt.text.toString()}} ${passwordEdtTxt.text.toString()}"

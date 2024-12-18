@@ -13,13 +13,23 @@ import androidx.core.content.ContextCompat
 import com.muflidevs.storyapp.R
 import com.muflidevs.storyapp.helper.HelperCustomView
 
-class CustomEmailEditText @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null
-) : AppCompatEditText(context, attrs), View.OnTouchListener {
-    private var clearButtonImage: Drawable
-    private var iconUserImage: Drawable
+class CustomEmailEditText  : AppCompatEditText, View.OnTouchListener {
+    private var clearButtonImage: Drawable? = null
+    private var iconUserImage: Drawable? = null
 
-    init {
+    constructor(context: Context) : super(context) {
+        init()
+    }
+
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init()
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        init()
+    }
+
+    fun init() {
         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.close_icon) as Drawable
         iconUserImage = ContextCompat.getDrawable(context, R.drawable.mail_icon) as Drawable
         setOnTouchListener(this)
@@ -40,8 +50,10 @@ class CustomEmailEditText @JvmOverloads constructor(
             }
 
         })
+        hint = "Email"
+        textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+        textSize = 20f
     }
-
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         if (compoundDrawables[2] != null) {
             val clearButtonStart: Float
@@ -49,12 +61,12 @@ class CustomEmailEditText @JvmOverloads constructor(
             var isClearButtonClicked = false
 
             if (layoutDirection == View.LAYOUT_DIRECTION_RTL) {
-                clearButtonEnd = (clearButtonImage.intrinsicWidth + paddingStart).toFloat()
+                clearButtonEnd = (clearButtonImage?.intrinsicWidth?.plus(paddingStart))!!.toFloat()
                 when {
                     event!!.x < clearButtonEnd -> isClearButtonClicked = true
                 }
             } else {
-                clearButtonStart = (width - paddingEnd - clearButtonImage.intrinsicWidth).toFloat()
+                clearButtonStart = (width - paddingEnd - clearButtonImage!!.intrinsicWidth).toFloat()
                 when {
                     event!!.x > clearButtonStart -> isClearButtonClicked = true
                 }
@@ -90,9 +102,7 @@ class CustomEmailEditText @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        hint = "Email"
-        textAlignment = View.TEXT_ALIGNMENT_VIEW_START
-        textSize = 20f
+
     }
 
     override fun setAlpha(alpha: Float) {

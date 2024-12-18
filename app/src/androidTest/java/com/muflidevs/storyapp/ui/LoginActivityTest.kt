@@ -17,7 +17,6 @@ import com.muflidevs.storyapp.helper.EspressoIdlingResource
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -37,17 +36,25 @@ class LoginActivityTest {
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
     }
 
-    @Test
-    fun loginIsSucces() {
+    @org.junit.Test
+    fun loginIsSuccessAndLogoutIsSuccess() {
+
         onView(withId(R.id.ed_login_email)).perform(
-            typeText("user@example.com"),
-            closeSoftKeyboard()
+            typeText("zaldyGG@gmail.com"), closeSoftKeyboard()
         )
-        onView(withId(R.id.ed_login_password)).perform(typeText("password123"), closeSoftKeyboard())
+        onView(withId(R.id.ed_login_password)).perform(
+            typeText("123456678"), closeSoftKeyboard()
+        )
 
         onView(withId(R.id.login_btn)).perform(click())
 
-        onView(withId(R.id.main_activity))
+        onView(withId(R.id.main_activity_real))
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.logout_btn)).perform(click())
+
+        onView(withId(R.id.ed_login_email))
             .check(matches(isDisplayed()))
     }
+
 }

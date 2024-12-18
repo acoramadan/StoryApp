@@ -121,6 +121,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.fetchPagedStories(0)
     }
+
     override fun onResume() {
         super.onResume()
         resumeFetchStory()
@@ -130,6 +131,7 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         stopFetchStory()
     }
+
     private fun resumeFetchStory() {
         handler = Handler(Looper.getMainLooper())
         pollingRunnable = object : Runnable {
@@ -146,6 +148,7 @@ class MainActivity : AppCompatActivity() {
             handler.removeCallbacks(pollingRunnable)
         }
     }
+
     private fun showLoading(loading: Boolean) {
         loadingProgressBar.visibility = if (loading) View.VISIBLE else View.GONE
     }
