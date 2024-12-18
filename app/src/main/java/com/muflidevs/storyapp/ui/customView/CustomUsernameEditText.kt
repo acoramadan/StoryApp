@@ -1,7 +1,6 @@
 package com.muflidevs.storyapp.ui.customView
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,7 +23,11 @@ class CustomUsernameEditText : AppCompatEditText, View.OnTouchListener {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init()
     }
 
@@ -50,6 +53,7 @@ class CustomUsernameEditText : AppCompatEditText, View.OnTouchListener {
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
         textSize = 20f
     }
+
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         if (compoundDrawables[2] != null) {
             val clearButtonStart: Float
@@ -62,7 +66,8 @@ class CustomUsernameEditText : AppCompatEditText, View.OnTouchListener {
                     event!!.x < clearButtonEnd -> isClearButtonClicked = true
                 }
             } else {
-                clearButtonStart = (width - paddingEnd - clearButtonImage!!.intrinsicWidth).toFloat()
+                clearButtonStart =
+                    (width - paddingEnd - clearButtonImage!!.intrinsicWidth).toFloat()
                 when {
                     event!!.x > clearButtonStart -> isClearButtonClicked = true
                 }
@@ -98,10 +103,6 @@ class CustomUsernameEditText : AppCompatEditText, View.OnTouchListener {
         return false
     }
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-
-    }
 
     override fun setAlpha(alpha: Float) {
         super.setAlpha(alpha)

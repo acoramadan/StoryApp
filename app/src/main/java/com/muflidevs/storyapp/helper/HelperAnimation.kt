@@ -10,24 +10,24 @@ import com.muflidevs.storyapp.ui.customView.CustomPasswordEditText
 import com.muflidevs.storyapp.ui.customView.CustomUsernameEditText
 
 object HelperAnimation {
-
-    fun playAnimation(
-        emailEdtTxt: CustomEmailEditText,
-        passwordEdtTxt: CustomPasswordEditText,
-        submitBtn: CustomButton,
-        loginEdtTxt: TextView
-    ) {
-
-        val email = ObjectAnimator.ofFloat(emailEdtTxt, View.ALPHA, 1f).setDuration(200)
-        val password = ObjectAnimator.ofFloat(passwordEdtTxt, View.ALPHA, 1f).setDuration(200)
-        val button = ObjectAnimator.ofFloat(submitBtn, View.ALPHA, 1f).setDuration(200)
-        val loginText = ObjectAnimator.ofFloat(loginEdtTxt, View.ALPHA, 1f).setDuration(200)
-
-        AnimatorSet().apply {
-            playSequentially(email, password, button, loginText)
-            start()
-        }
-    }
+    //dimatikan karena menganggu testing
+//    fun playAnimation(
+//        emailEdtTxt: CustomEmailEditText,
+//        passwordEdtTxt: CustomPasswordEditText,
+//        submitBtn: CustomButton,
+//        loginEdtTxt: TextView
+//    ) {
+//
+//        val email = ObjectAnimator.ofFloat(emailEdtTxt, View.ALPHA, 1f).setDuration(200)
+//        val password = ObjectAnimator.ofFloat(passwordEdtTxt, View.ALPHA, 1f).setDuration(200)
+//        val button = ObjectAnimator.ofFloat(submitBtn, View.ALPHA, 1f).setDuration(200)
+//        val loginText = ObjectAnimator.ofFloat(loginEdtTxt, View.ALPHA, 1f).setDuration(200)
+//
+//        AnimatorSet().apply {
+//            playSequentially(email, password, button, loginText)
+//            start()
+//        }
+//    }
 
     fun playAnimation(
         userNameEdtText: CustomUsernameEditText,

@@ -1,7 +1,6 @@
 package com.muflidevs.storyapp.ui.customView
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,7 +12,7 @@ import androidx.core.content.ContextCompat
 import com.muflidevs.storyapp.R
 import com.muflidevs.storyapp.helper.HelperCustomView
 
-class CustomEmailEditText  : AppCompatEditText, View.OnTouchListener {
+class CustomEmailEditText : AppCompatEditText, View.OnTouchListener {
     private var clearButtonImage: Drawable? = null
     private var iconUserImage: Drawable? = null
 
@@ -25,11 +24,15 @@ class CustomEmailEditText  : AppCompatEditText, View.OnTouchListener {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init()
     }
 
-    fun init() {
+    private fun init() {
         clearButtonImage = ContextCompat.getDrawable(context, R.drawable.close_icon) as Drawable
         iconUserImage = ContextCompat.getDrawable(context, R.drawable.mail_icon) as Drawable
         setOnTouchListener(this)
@@ -54,6 +57,7 @@ class CustomEmailEditText  : AppCompatEditText, View.OnTouchListener {
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
         textSize = 20f
     }
+
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         if (compoundDrawables[2] != null) {
             val clearButtonStart: Float
@@ -66,7 +70,8 @@ class CustomEmailEditText  : AppCompatEditText, View.OnTouchListener {
                     event!!.x < clearButtonEnd -> isClearButtonClicked = true
                 }
             } else {
-                clearButtonStart = (width - paddingEnd - clearButtonImage!!.intrinsicWidth).toFloat()
+                clearButtonStart =
+                    (width - paddingEnd - clearButtonImage!!.intrinsicWidth).toFloat()
                 when {
                     event!!.x > clearButtonStart -> isClearButtonClicked = true
                 }
@@ -98,11 +103,6 @@ class CustomEmailEditText  : AppCompatEditText, View.OnTouchListener {
             } else return false
         }
         return false
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-
     }
 
     override fun setAlpha(alpha: Float) {

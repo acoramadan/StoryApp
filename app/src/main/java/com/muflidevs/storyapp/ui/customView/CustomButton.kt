@@ -1,7 +1,6 @@
 package com.muflidevs.storyapp.ui.customView
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.Gravity
@@ -12,20 +11,24 @@ import com.muflidevs.storyapp.R
 class CustomButton : AppCompatButton {
 
     private var txtColor: Int = 0
-    private var enabledBackground: Drawable? =  null
+    private var enabledBackground: Drawable? = null
     private var disabledBackground: Drawable? = null
 
     constructor(context: Context) : super(context) {
         init()
     }
+
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init()
     }
-
 
 
     private fun init() {
@@ -42,8 +45,4 @@ class CustomButton : AppCompatButton {
             if (isEnabled) context.getText(R.string.submit) else context.getText(R.string.btn_validation)
     }
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-
-    }
 }

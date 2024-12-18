@@ -28,8 +28,11 @@ pagingRuntimeKtx = "3.3.5"
 roomPaging = "2.6.1"
 roomRuntime = "2.6.1"
 junitJupiter = "5.8.2"
+#noinspection GradleDependency
 espressoIntents = "3.4.0"
+#noinspection GradleDependency
 espressoIdlingResource = "3.4.0"
+#noinspection GradleDependency
 rules = "1.6.1"
 
 

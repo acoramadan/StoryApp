@@ -27,7 +27,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
-@Suppress("SameReturnValue")
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class StoryViewModelTest {
@@ -114,6 +113,7 @@ class StoryViewModelTest {
             }
         }
 
+        @Suppress("SameReturnValue")
         override fun getRefreshKey(state: PagingState<Int, LiveData<List<Story>>>): Int {
             return 0
         }
